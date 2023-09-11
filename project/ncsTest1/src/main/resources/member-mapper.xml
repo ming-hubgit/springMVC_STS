@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberMapper">
+	<resultMap type="Member" id="memberResultSet">
+		<id property="memberId" column="MEMBER_ID" />
+		<!-- 기본키로 설정하고 싶은 컬럼은 result가 아닌 id로 작성 -->
+		<result property="memberPwd" column="MEMBER_PWD" />
+		<!-- DO에 적어둔 변수명 / DB 테이블에 지정된 컬럼명 -->
+		<result property="memberName" column="MEMBER_NM" />
+		<result property="memberEnrollDate" column="MEMBER_ENROLL_DT" />
+	</resultMap>
+	<!-- mybatis-config에 typeAlias 설정 (com.kh.quiz.QuizDO => Quiz) -->
+	<select id="loginMember" parameterType="Member"
+		resultMap="memberResultSet">
+		SELECT * FROM Member
+		WHERE MEMBER_ID=#{memberId}
+		AND MEMBER_PWD=#{memberPwd}
+	</select>
+</mapper>
