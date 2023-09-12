@@ -8,5 +8,8 @@
 </head>
 <body>
 Log in succeed.
+<form action="signout">
+<input type="submit" value="LOGOUT" />
+</form>
 </body>
 </html>
