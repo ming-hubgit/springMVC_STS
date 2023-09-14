@@ -12,8 +12,8 @@
 	<div id="nav_wrap">
 		
 		<%
-		AdminMemberVO loginedAdminMemberVo = (AdminMemberVO) session.getAttribute("loginedAdminMemberVo");
-		if (loginedAdminMemberVo != null) {
+		AdminMemberVO loginedAdminMemberVO = (AdminMemberVO) session.getAttribute("loginedAdminMemberVO");
+		if (loginedAdminMemberVO != null) {
 		%>
 		
 		<div class="menu">

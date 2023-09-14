@@ -32,4 +32,19 @@ public class AdminMemberService {
 		}
 	}
 	
+	public AdminMemberVO loginConfirm(AdminMemberVO adminMemberVO) {
+		System.out.println("[AdminMemberService] loginConfirm()");
+		
+		//결과를 받아줄 객체를 만들어 줍니다.
+		AdminMemberVO loginedAdminMemberVO =
+				adminMemberDAO.selectAdmin(adminMemberVO);
+		
+		if(loginedAdminMemberVO != null) {
+			System.out.println("[AdminMemberService] ADMIN MEMBER LOGIN SUCCESS!");
+		}else {
+			System.out.println("[AdminMemberService] ADMIN MEMBER LOGIN FAIL!!");
+		}
+		return loginedAdminMemberVO;
+	}
+	
 }
