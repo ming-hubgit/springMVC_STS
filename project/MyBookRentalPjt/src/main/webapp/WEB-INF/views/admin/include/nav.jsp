@@ -12,8 +12,8 @@
 	<div id="nav_wrap">
 		
 		<%
-		AdminMemberVO loginedAdminMemberVo = (AdminMemberVO) session.getAttribute("loginedAdminMemberVo");
-		if (loginedAdminMemberVo != null) {
+		AdminMemberVO loginedAdminMemberVO = (AdminMemberVO) session.getAttribute("loginedAdminMemberVO");
+		if (loginedAdminMemberVO != null) {
 		%>
 		
 		<div class="menu">
@@ -21,7 +21,7 @@
 				<li><a href="<c:url value='/admin/member/logoutConfirm' />">로그아웃</a></li>
 				<li><a href="<c:url value='/admin/member/modifyAccountForm' />">계정수정</a></li>
 				
-				<c:if test="${loginedAdminMemberVo.a_m_id eq 'super admin'}">
+				<c:if test="${loginedAdminMemberVO.a_m_id eq 'super admin'}">
 					<li><a href="<c:url value='/admin/member/listupAdmin' />">관리자목록</a></li>
 				</c:if>
 				
