@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="adminMapper">
+	<resultMap type="AdminMemberVO" id="AdminMemberVO">
+		<id property="a_m_no" column="a_m_no" />
+		<result property="a_m_id" column="a_m_id" />
+		<result property="a_m_pw" column="a_m_pw" />
+		<result property="a_m_name" column="a_m_name" />
+		<result property="a_m_part" column="a_m_part" />
+		<result property="a_m_position" column="a_m_position" />
+		<result property="a_m_mail" column="a_m_mail" />
+		<result property="a_m_phone" column="a_m_phone" />
+		<result property="a_m_reg_date" column="a_m_reg_date" />
+		<result property="a_m_mod_date" column="a_m_mod_date" />
+	</resultMap>
+</mapper>
+<!-- 데이터 확인 -->
+<select id="isAdminMember" resultType="boolean">
+	SELECT COUNT(*) FROM tbl_my_admin_member WHERE a_m_id = #{a_m_id}
+</select>
+
+<!-- 데이터 추가 -->
+<insert id="insertAdminAccount">
+        INSERT INTO tbl_my_admin_member (
+            <if test="adminMemberVO.a_m_id == 'super admin'">
+                a_m_approval,
+            </if>
+            a_m_id,
+            a_m_pw,
+            a_m_name,
+            a_m_gender,
+            a_m_part,
+            a_m_position,
+            a_m_mail,
+            a_m_phone,
+            a_m_reg_date,
+            a_m_mod_date
+        )
+        VALUES (
+            <if test="adminMemberVO.a_m_id == 'super admin'">
+                1,
+            </if>
+            <if test="adminMemberVO.a_m_id != 'super admin'">
+                0,
+            </if>
+            #{adminMemberVO.a_m_id},
+            #{adminMemberVO.a_m_pw},
+            #{adminMemberVO.a_m_name},
+            #{adminMemberVO.a_m_gender},
+            #{adminMemberVO.a_m_part},
+            #{adminMemberVO.a_m_position},
+            #{adminMemberVO.a_m_mail},
+            #{adminMemberVO.a_m_phone},
+            NOW(),
+            NOW()
+        )
+</insert>
+
