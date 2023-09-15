@@ -1,13 +1,18 @@
 package com.office.library.admin.member;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("admin/member")
@@ -74,6 +79,47 @@ public class AdminMemberController {
 		
 		//세션이 초기화됩니다.
 		session.invalidate();
+		
+		return nextPage;
+	}
+	//관리자 목록 - Model 사용
+	/*@GetMapping("/listupAdmin")
+	public String listupAdmin(Model model) {
+		System.out.println("[AdminMemberController] listupAdmin()");
+		
+		String nextPage = "admin/member/listup_admins";
+		
+		List<AdminMemberVO> adminMemberVOs = adminMemberService.listupAdmin();
+		
+		model.addAttribute("adminMemberVOs", adminMemberVOs);
+		
+		return nextPage;
+	}*/
+	
+	//관리자 목록 - ModelAndView 사용
+	@GetMapping("/listupAdmin")
+	public ModelAndView listupAdmin(Model model) {
+		System.out.println("[AdminMemberController] listupAdmin()");
+		
+		String nextPage = "admin/member/listup_admins";
+		
+		List<AdminMemberVO> adminMemberVOs = adminMemberService.listupAdmin();
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("adminMemberVOs", adminMemberVOs);
+		modelAndView.setViewName(nextPage);
+		
+		return modelAndView;
+	}
+	
+	//관리자 승인처리
+	@GetMapping("/setAdminApproval")
+	public String setAdminApproval(@RequestParam("a_m_no") int a_m_no) {
+		System.out.println("[AdminMemberController] setAdminApproval()");
+		
+		String nextPage = "redirect:/admin/member/listupAdmin";
+		
+		adminMemberService.setAdminApproval(a_m_no);
 		
 		return nextPage;
 	}

@@ -44,7 +44,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="item" items="${adminMemberVos}">
+						<c:forEach var="item" items="${adminMemberVOs}">
 							<tr>
 								<td>${item.a_m_id}</td>
 								<td>${item.a_m_name}</td>
