@@ -158,4 +158,32 @@ public class AdminMemberController {
 		}
 		return nextPage;
 	}
+	
+	//비밀번호 찾기 창
+	//Get,Post상관없으니까 RequestMapping으로 합시다.
+	@RequestMapping("/findPasswordForm")
+	public String findPasswordForm() {
+		System.out.println("[AdminMemberController] findPasswordForm()");
+		
+		String nextPage = "admin/member/find_password_form";
+		
+		return nextPage;
+	}
+	//비밀번호 찾기 성공 또는 실패 
+	@PostMapping("/findPasswordConfirm")
+	public String findPasswordConfirm(AdminMemberVO adminMemberVO) {
+		System.out.println("[AdminMemberController] findPasswordConfirm()");
+		
+		String nextPage = "admin/member/find_password_ok";
+		
+		//여기 가져오는 정보는 아이디, 이메일, 이름이 매칭되는지 확인하는겁니다.
+		//일치하면 새 비밀번호를 보내주겠죠?
+		int result = adminMemberService.findPasswordConfirm(adminMemberVO);
+		
+		//매칭되는 정보가 없으면 비밀번호 찾기 실패창 띄우기
+		if(result <= 0) {
+			nextPage = "admin/member/find_password_ng";
+		}
+		return nextPage;
+	}
 }
