@@ -62,4 +62,17 @@ public class AdminMemberService {
 		int result = adminMemberDAO.updateAdminAccount(a_m_no);
 	}
 	
+	//계정 수정
+	public int modifyAccountConfirm(AdminMemberVO adminMemberVO) {
+		System.out.println("[AdminMemberService] modifyAccountConfirm()");
+		
+		return adminMemberDAO.updateAdminAccount(adminMemberVO);
+	}
+	
+	public AdminMemberVO getLoginedAdminMemberVO(int a_m_no) {
+		System.out.println("[AdminMemberService] getLoginedAdminMemberVO()");
+		
+		return adminMemberDAO.selectAdmin(a_m_no);
+	}
+	
 }

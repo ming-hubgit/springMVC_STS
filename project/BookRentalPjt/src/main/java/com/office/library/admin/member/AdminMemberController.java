@@ -77,7 +77,6 @@ public class AdminMemberController {
 		System.out.println("[AdminMemberController] logoutConfirm()");
 		String nextPage = "redirect:/admin";
 		
-		//세션이 초기화됩니다.
 		session.invalidate();
 		
 		return nextPage;
@@ -121,6 +120,42 @@ public class AdminMemberController {
 		
 		adminMemberService.setAdminApproval(a_m_no);
 		
+		return nextPage;
+	}
+	//로그인 확인 => 계정 수정창
+	@GetMapping("/modifyAccountForm")
+	public String modifyAccountForm(HttpSession session) {
+		System.out.println("[AdminMemberController] modifyAccountForm()");
+		String nextPage = "admin/member/modify_account_form";
+		
+		AdminMemberVO loginedAdminMemberVO =
+				(AdminMemberVO) session.getAttribute("loginedAdminMemberVO");
+		
+		if(loginedAdminMemberVO == null) {
+			nextPage = "redirect:/admin/member/loginForm";
+		}
+		return nextPage;
+	}
+	//계정 수정
+	@PostMapping("/modifyAccountConfirm")
+	public String modifyAccountConfrim(AdminMemberVO adminMemberVO, HttpSession session) {
+		System.out.println("[AdminMemberController] modifyAccountConfrim()");
+		
+		String nextPage = "admin/member/modify_account_ok";
+		
+		int result = adminMemberService.modifyAccountConfirm(adminMemberVO);
+		//데이터 수정(업데이트)을 위해 서비스를 이용해서 DAO접근해야함.
+		
+		if(result > 0) {
+			AdminMemberVO loginedAdminMemberVO =
+					adminMemberService.getLoginedAdminMemberVO(adminMemberVO.getA_m_no());
+			
+			//세션의 정보도 수정을 해야합니다.
+			session.setAttribute("loginedAdminMemberVO", loginedAdminMemberVO);
+			session.setMaxInactiveInterval(60*30);
+		}else {
+			nextPage = "admin/member/modify_account_ng";
+		}
 		return nextPage;
 	}
 }
