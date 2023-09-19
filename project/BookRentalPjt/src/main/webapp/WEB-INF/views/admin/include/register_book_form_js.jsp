@@ -32,7 +32,7 @@
 			alert('INPUT BOOK CALL NUMBER.');
 			form.b_call_number.focus();
 			
-		} else if (form.b_rantal_able.value == '') {
+		} else if (form.b_rental_able.value == '') {
 			alert('SELECT BOOK RANTAL ABLE.');
 			form.b_rantal_able.focus();
 			

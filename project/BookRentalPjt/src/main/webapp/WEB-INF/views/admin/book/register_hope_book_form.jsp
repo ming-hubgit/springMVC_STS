@@ -34,15 +34,15 @@
 			
 				<form action="<c:url value='/book/admin/registerHopeBookConfirm' />" name="register_hope_book_form" method="post" enctype="multipart/form-data">
 					
-					<input type="hidden" name="hb_no" value="${hopeBookVo.hb_no}">
+					<input type="hidden" name="hb_no" value="${hopeBookVO.hb_no}">
 					
-					<input type="text" name="b_name" value="${hopeBookVo.hb_name}" placeholder="INPUT BOOK NAME."> <br>
-					<input type="text" name="b_author" value="${hopeBookVo.hb_author}" placeholder="INPUT BOOK AUTHOR."> <br>
-					<input type="text" name="b_publisher" value="${hopeBookVo.hb_publisher}" placeholder="INPUT BOOK PUBLISHER."> <br>
-					<input type="text" name="b_publish_year" value="${hopeBookVo.hb_publish_year}" placeholder="INPUT BOOK PUBLISH YEAR."> <br>
+					<input type="text" name="b_name" value="${hopeBookVO.hb_name}" placeholder="INPUT BOOK NAME."> <br>
+					<input type="text" name="b_author" value="${hopeBookVO.hb_author}" placeholder="INPUT BOOK AUTHOR."> <br>
+					<input type="text" name="b_publisher" value="${hopeBookVO.hb_publisher}" placeholder="INPUT BOOK PUBLISHER."> <br>
+					<input type="text" name="b_publish_year" value="${hopeBookVO.hb_publish_year}" placeholder="INPUT BOOK PUBLISH YEAR."> <br>
 					<input type="text" name="b_isbn" placeholder="INPUT BOOK ISBN."> <br>
 					<input type="text" name="b_call_number" placeholder="INPUT BOOK CALL NUMBER."> <br>
-					<select name="b_rantal_able">
+					<select name="b_rental_able">
 						<option value="">SELECT BOOK RANTAL ABLE.</option>
 						<option value="0">UNABLE.</option>
 						<option value="1">ABLE.</option>
