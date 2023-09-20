@@ -1,7 +1,10 @@
 package com.office.library.book.admin;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,5 +54,79 @@ public class BookController {
 		}
 		return nextPage;
 	}
+	//도서 검색
+	@GetMapping("/searchBookConfirm")
+	public String searchBookConfirm(BookVO bookVO, Model model) {
+		System.out.println("[BookController] searchBookConfirm()");
+		
+		String nextPage = "admin/book/search_book";
+		
+		List<BookVO> bookVOs = bookService.searchBookConfirm(bookVO);
+		
+		model.addAttribute("bookVOs", bookVOs);
+		return nextPage;
+	}
+	
+	//도서 상세 조회
+	@GetMapping("/bookDetail")
+	public String bookDetail(@RequestParam("b_no") int b_no, Model model) {
+		System.out.println("[BookController] bookDetail()");
+		
+		String nextPage = "admin/book/book_detail";
+		
+		BookVO bookVO = bookService.bookDetail(b_no);
+		
+		model.addAttribute("bookVO", bookVO);
+		
+		return nextPage;
+	}
+	//도서 수정 창
+	@GetMapping("/modifyBookForm")
+	public String modifyBookForm(@RequestParam("b_no") int b_no, Model model) {
+		System.out.println("[BookController] modifyBookForm()");
+		
+		String nextPage = "admin/book/modify_book_form";
+		
+		BookVO bookVO = bookService.modifyBookForm(b_no);
+		
+		model.addAttribute("bookVO", bookVO);
+		return nextPage;
+	}
+
+	// 도서 수정 기능
+	@PostMapping("/modifyBookConfirm")
+	public String modifyBookConfirm(BookVO bookVO, @RequestParam("file") MultipartFile file) {
+		System.out.println("[BookController] modifyBookConfirm()");
+
+		String nextPage = "admin/book/modify_book_ok";
+
+		if (!file.getOriginalFilename().equals("")) {
+			String savedFileName = uploadFileService.upload(file);
+			if (savedFileName != null) {
+				bookVO.setB_thumbnail(savedFileName);
+
+			}
+		}
+		int result = bookService.modifyBookConfirm(bookVO);
+		if (result <= 0) {
+			nextPage = "admin/book/modify_book_ng";
+		}
+		return nextPage;
+	}
+	//도서 삭제 기능
+	@GetMapping("/deleteBookConfirm")
+	public String deleteBookConfirm(@RequestParam("b_no") int b_no) {
+		System.out.println("[BookController] deleteBookConfirm()");
+		
+		String nextPage = "admin/book/delete_book_ok";
+		
+		int result = bookService.deleteBookConfirm(b_no);
+		
+		if(result <= 0) {
+			nextPage = "admin/book/delete_book_ng";
+		}
+		return nextPage;
+	}
+	
 	
 }
