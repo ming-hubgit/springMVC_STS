@@ -110,4 +110,28 @@ public class UserMemberController {
 		session.invalidate();
 		return nextPage;
 	}
+	//비밀번호 찾기 창
+	@GetMapping("/findPasswordForm")
+	public String findPasswordForm() {
+		System.out.println("[UserMemberController] findPasswordForm()");
+		
+		String nextPage = "user/member/find_password_form";
+		
+		return nextPage;
+	}
+	//비밀번호 찾기 기능
+	@PostMapping("/findPasswordConfirm")
+	public String findPasswordConfirm(UserMemberVO userMemberVO) {
+		System.out.println("[UserMemberController] findPasswordConfirm()");
+		
+		String nextPage = "user/member/find_password_ok";
+		
+		int result = userMemberService.findPasswordConfirm(userMemberVO);
+		
+		if(result <= 0) {
+			nextPage = "user/member/find_password_ng";
+		}
+		
+		return nextPage;
+	}
 }
