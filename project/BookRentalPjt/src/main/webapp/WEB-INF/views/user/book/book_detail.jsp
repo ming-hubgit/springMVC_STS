@@ -32,51 +32,51 @@
 			
 				<ul>
 					<li>
-						<img src="<c:url value="/libraryUploadImg/${bookVo.b_thumbnail}"/>">
+						<img src="<c:url value="/libraryUploadImg/${bookVO.b_thumbnail}"/>">
 					</li>
 					<li>
 						<table>
 							<tr>
 								<td>도서명</td>
-								<td>${bookVo.b_name}</td>
+								<td>${bookVO.b_name}</td>
 							</tr>
 							<tr>
 								<td>저자</td>
-								<td>${bookVo.b_author}</td>
+								<td>${bookVO.b_author}</td>
 							</tr>
 							<tr>
 								<td>발행처</td>
-								<td>${bookVo.b_publisher}</td>
+								<td>${bookVO.b_publisher}</td>
 							</tr>
 							<tr>
 								<td>발행년도</td>
-								<td>${bookVo.b_publish_year}</td>
+								<td>${bookVO.b_publish_year}</td>
 							</tr>
 							<tr>
 								<td>ISBN</td>
-								<td>${bookVo.b_isbn}</td>
+								<td>${bookVO.b_isbn}</td>
 							</tr>
 							<tr>
 								<td>청구기호</td>
-								<td>${bookVo.b_call_number}</td>
+								<td>${bookVO.b_call_number}</td>
 							</tr>
 							<tr>
 								<td>대출가능</td>
 								<td>
 								<c:choose>
-									<c:when test="${bookVo.b_rantal_able eq '0'}"> <c:out value="X" /> </c:when>
-									<c:when test="${bookVo.b_rantal_able eq '1'}"> <c:out value="O" /> </c:when>
+									<c:when test="${bookVO.b_rental_able eq '0'}"> <c:out value="X" /> </c:when>
+									<c:when test="${bookVO.b_rental_able eq '1'}"> <c:out value="O" /> </c:when>
 									<c:otherwise> <c:out value="X" /> </c:otherwise>
 								</c:choose>
 								</td>
 							</tr>
 							<tr>
 								<td>등록일</td>
-								<td>${bookVo.b_reg_date}</td>
+								<td>${bookVO.b_reg_date}</td>
 							</tr>
 							<tr>
 								<td>수정일</td>
-								<td>${bookVo.b_mod_date}</td>
+								<td>${bookVO.b_mod_date}</td>
 							</tr>
 						</table>
 					</li>
@@ -87,12 +87,12 @@
 			<div class="buttons">
 				
 				<c:choose>
-					<c:when test="${bookVo.b_rantal_able eq 0}">
+					<c:when test="${bookVO.b_rental_able eq 0}">
 						<a href="#none">대출중</a>
 					</c:when>
-					<c:when test="${bookVo.b_rantal_able eq 1}">
+					<c:when test="${bookVO.b_rental_able eq 1}">
 						<c:url value='/book/user/rentalBookConfirm' var='rental_url'>
-							<c:param name='b_no' value='${bookVo.b_no}'/>
+							<c:param name='b_no' value='${bookVO.b_no}'/>
 						</c:url>
 						<a class="rental_book_button" href="${rental_url}">도서 대출</a>
 					</c:when>
