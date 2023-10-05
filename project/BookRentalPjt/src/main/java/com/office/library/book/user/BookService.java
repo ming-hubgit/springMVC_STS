@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.office.library.book.BookVO;
+import com.office.library.book.RentalBookVO;
 
 @Service
 public class BookService {
@@ -39,5 +40,18 @@ public class BookService {
 		}
 		
 		return result;
+	}
+	
+	//도서 대출 목록 보기
+	public List<RentalBookVO> enterBookshelf(int u_m_no){
+		System.out.println("[BookService] enterBookshelf()");
+		
+		return bookDao.selectRentalBooks(u_m_no);
+	}
+	//전체 대출 이력 조회
+	public List<RentalBookVO> listupRentalBookHistory(int u_m_no){
+		System.out.println("[BookService] listupRentalBookHistory()");
+		
+		return bookDao.selectRentalBookHistory(u_m_no);
 	}
 }

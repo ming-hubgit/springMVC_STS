@@ -73,12 +73,12 @@ public class UserMemberController {
 		
 		String nextPage = "user/member/modify_account_form";
 		
-		UserMemberVO loginedUserMemberVO =
-				(UserMemberVO) session.getAttribute("loginedUserMemberVO");
-		
-		if(loginedUserMemberVO == null) {
-			nextPage = "redirect:/user/member/loginForm";
-		}
+//		UserMemberVO loginedUserMemberVO =
+//				(UserMemberVO) session.getAttribute("loginedUserMemberVO");
+//		
+//		if(loginedUserMemberVO == null) {
+//			nextPage = "redirect:/user/member/loginForm";
+//		}
 		return nextPage;
 	}
 	//계정 수정

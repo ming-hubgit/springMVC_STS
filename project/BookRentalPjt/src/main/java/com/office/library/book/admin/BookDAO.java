@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.office.library.book.BookVO;
+import com.office.library.book.RentalBookVO;
 
 @Component
 public class BookDAO {
@@ -167,6 +168,96 @@ public class BookDAO {
 		System.out.println("[BookDAO] deleteBook()");
 		
 		String sql = "DELETE FROM tbl_book WHERE b_no = ?";
+		
+		int result = -1;
+		
+		try {
+			result = jdbcTemplate.update(sql, b_no);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	//대출도서 목록 조회
+	public List<RentalBookVO> selectRentalBooks(){
+		System.out.println("[BookDAO] selectRentalBooks()");
+		
+		String sql = "SELECT * FROM tbl_rental_book rb "
+				+ "JOIN tbl_book b "
+				+ "ON rb.b_no = b.b_no "
+				+ "JOIN tbl_user_member um "
+				+ "ON rb.u_m_no = um.u_m_no "
+				+ "WHERE rb.rb_end_date = '1000-01-01' "
+				+ "ORDER BY um.u_m_id ASC, rb.rb_reg_date DESC";
+		
+		List<RentalBookVO> rentalBookVOs = new ArrayList<RentalBookVO>();
+		
+		try {
+			rentalBookVOs = jdbcTemplate.query(sql, new RowMapper<RentalBookVO>() {
+				@Override
+				public RentalBookVO mapRow(ResultSet rs, int rowNum) throws SQLException{
+					RentalBookVO rentalBookVO = new RentalBookVO();
+					
+					rentalBookVO.setRb_no(rs.getInt("rb_no"));
+					rentalBookVO.setB_no(rs.getInt("b_no"));
+					rentalBookVO.setU_m_no(rs.getInt("u_m_no"));
+					rentalBookVO.setRb_start_date(rs.getString("rb_start_date"));
+					rentalBookVO.setRb_end_date(rs.getString("rb_end_date"));
+					rentalBookVO.setRb_reg_date(rs.getString("rb_reg_date"));
+					rentalBookVO.setRb_mod_date(rs.getString("rb_mod_date"));
+					
+					rentalBookVO.setB_thumbnail(rs.getString("b_thumbnail"));
+					rentalBookVO.setB_name(rs.getString("b_name"));
+					rentalBookVO.setB_author(rs.getString("b_author"));
+					rentalBookVO.setB_publisher(rs.getString("b_publisher"));
+					rentalBookVO.setB_publish_year(rs.getString("b_publish_year"));
+					rentalBookVO.setB_isbn(rs.getString("b_isbn"));
+					rentalBookVO.setB_call_number(rs.getString("b_call_number"));
+					rentalBookVO.setB_rental_able(rs.getInt("b_rental_able"));
+					rentalBookVO.setB_reg_date(rs.getString("b_reg_date"));
+					
+					rentalBookVO.setU_m_id(rs.getString("u_m_id"));
+					rentalBookVO.setU_m_pw(rs.getString("u_m_pw"));
+					rentalBookVO.setU_m_name(rs.getString("u_m_name"));
+					rentalBookVO.setU_m_gender(rs.getString("u_m_gender"));
+					rentalBookVO.setU_m_mail(rs.getString("u_m_mail"));
+					rentalBookVO.setU_m_phone(rs.getString("u_m_phone"));
+					rentalBookVO.setU_m_reg_date(rs.getString("u_m_reg_date"));
+					rentalBookVO.setU_m_mod_date(rs.getString("u_m_mod_date"));
+					
+					return rentalBookVO;
+				}
+			});
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return rentalBookVOs;
+	}
+	//도서 반납 처리
+	public int updateRentalBook(int rb_no) {
+		System.out.println("[BookDAO] updateRentalBook()");
+		
+		String sql = "UPDATE tbl_rental_book "
+				+ "SET rb_end_date = NOW() "
+				+ "WHERE rb_no = ?";
+		
+		int result = -1;
+		
+		try {
+			result = jdbcTemplate.update(sql, rb_no);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	//대출 가능여부 수정
+	public int updateBook(int b_no) {
+		System.out.println("[BookDAO] updateBook()");
+		
+		String sql = "UPDATE tbl_book "
+				+ "SET b_rental_able = 1 "
+				+ "WHERE b_no = ?";
 		
 		int result = -1;
 		

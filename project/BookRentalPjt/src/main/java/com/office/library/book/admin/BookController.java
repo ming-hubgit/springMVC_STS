@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.office.library.book.BookVO;
+import com.office.library.book.RentalBookVO;
 import com.office.library.book.admin.util.UploadFileService;
 
 @Controller
@@ -124,6 +125,35 @@ public class BookController {
 		
 		if(result <= 0) {
 			nextPage = "admin/book/delete_book_ng";
+		}
+		return nextPage;
+	}
+	
+	//대출도서 목록 -> 도서 반납 처리
+	@GetMapping("/getRentalBooks")
+	public String getRentalBooks(Model model) {
+		System.out.println("[BookController] getRentalBooks()");
+		
+		String nextPage = "admin/book/rental_books";
+		
+		List<RentalBookVO> rentalBookVOs = bookService.getRentalBooks();
+		
+		model.addAttribute("rentalBookVOs", rentalBookVOs);
+		
+		return nextPage;
+	}
+	
+	//도서 반납 처리
+	@GetMapping("/returnBookConfirm")
+	public String returnBookConfirm(@RequestParam int b_no, @RequestParam int rb_no) {
+		System.out.println("[BookController] returnBookConfirm()");
+		
+		String nextPage = "admin/book/return_book_ok";
+		
+		int result = bookService.returnBookConfirm(b_no, rb_no);
+		
+		if(result <= 0) {
+			nextPage = "admin/book/return_book_ng";
 		}
 		return nextPage;
 	}

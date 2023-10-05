@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.office.library.book.BookVO;
+import com.office.library.book.RentalBookVO;
 import com.office.library.user.member.UserMemberVO;
 
 @Controller
@@ -55,14 +56,47 @@ public class BookController {
 		UserMemberVO loginedUserMemberVO = 
 				(UserMemberVO)session.getAttribute("loginedUserMemberVO");
 		
-		if(loginedUserMemberVO == null) {
-			return "redirect:/user/member/loginForm";
-		}
+//		if(loginedUserMemberVO == null) {
+//			return "redirect:/user/member/loginForm";
+//		}
 		int result = bookService.rentalBookConfirm(b_no, loginedUserMemberVO.getU_m_no());
 		
 		if(result <= 0) {
 			nextPage = "user/book/rental_book_ng";
 		}
+		return nextPage;
+	}
+	//나의 책장 => 대출 목록 보기
+	@GetMapping("/enterBookshelf")
+	public String enterBookshelf(HttpSession session, Model model) {
+		System.out.println("[BookController] enterBookshelf()");
+		
+		String nextPage = "user/book/bookshelf";
+		
+		UserMemberVO loginedUserMemberVO =
+				(UserMemberVO) session.getAttribute("loginedUserMemberVO");
+		
+		List<RentalBookVO> rentalBookVOs =
+				bookService.enterBookshelf(loginedUserMemberVO.getU_m_no());
+		
+		model.addAttribute("rentalBookVOs", rentalBookVOs);
+		
+		return nextPage;
+	}
+	//전체 대출 이력 조회
+	@GetMapping("/listupRentalBookHistory")
+	public String listupRentalBookHistory(HttpSession session, Model model) {
+		System.out.println("[BookController] listupRentalBookHistory()");
+		
+		String nextPage = "user/book/rental_book_history";
+		
+		UserMemberVO loginedUserMemberVO = (UserMemberVO) session.getAttribute("loginedUserMemberVO");
+		
+		List<RentalBookVO> rentalBookVOs =
+				bookService.listupRentalBookHistory(loginedUserMemberVO.getU_m_no());
+		
+		model.addAttribute("rentalBookVOs", rentalBookVOs);
+		
 		return nextPage;
 	}
 }

@@ -24,6 +24,22 @@
 	
 	<context:component-scan base-package="com.office.library" name-generator="com.office.library.config.LibraryBeanNameGenerator" />
 	
-	
+	<interceptors>
+		<interceptor>
+			<mapping path="/book/user/rentalBookConfirm" />
+			<mapping path="/user/member/**/" />
+			<mapping path="/book/user/rentalBookConfirm" />
+			<mapping path="book/user/enterBookshelf" />
+			<mapping path="/book/user/listupRentalBookHistory" />
+			<exclude-mapping path="/user/member/createAccountForm" />
+			<exclude-mapping path="/user/member/createAccountConfirm" />
+			<exclude-mapping path="/user/member/loginForm" />
+			<exclude-mapping path="/user/member/loginConfirm" />
+			<exclude-mapping path="/user/member/findPasswordForm" />
+			<exclude-mapping path="/user/member/findPasswordConfirm" />
+			<beans:bean
+				class="com.office.library.user.member.UserMemberLoginInterceptor" />
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>
