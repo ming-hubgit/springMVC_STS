@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.office.library.book.BookVO;
+import com.office.library.book.HopeBookVO;
 import com.office.library.book.RentalBookVO;
 
 @Component
@@ -267,5 +268,99 @@ public class BookDAO {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	//희망 도서 요청 목록보기
+	public List<HopeBookVO> selectHopeBooks(){
+		System.out.println("[BookDAO] selectHopeBooks()");
+		
+		String sql = "SELECT * FROM tbl_hope_book hb "
+					+ "JOIN tbl_user_member um "
+					+ "ON hb.u_m_no = um.u_m_no "
+					+ "ORDER BY hb.hb_no DESC";
+		
+		List<HopeBookVO> hopeBookVOs = new ArrayList<HopeBookVO>();
+		
+		try {
+			hopeBookVOs = jdbcTemplate.query(sql, new RowMapper<HopeBookVO>() {
+				@Override
+				public HopeBookVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+					HopeBookVO hopeBookVO = new HopeBookVO();
+					
+					hopeBookVO.setHb_no(rs.getInt("hb_no"));
+					hopeBookVO.setHb_name(rs.getString("hb_name"));
+					hopeBookVO.setHb_author(rs.getString("hb_author"));
+					hopeBookVO.setHb_publisher(rs.getString("hb_publisher"));
+					hopeBookVO.setHb_publish_year(rs.getString("hb_publish_year"));
+					hopeBookVO.setHb_reg_date(rs.getString("hb_reg_date"));
+					hopeBookVO.setHb_mod_date(rs.getString("hb_mod_date"));
+					hopeBookVO.setHb_result(rs.getInt("hb_result"));
+					hopeBookVO.setHb_result_last_date(rs.getString("hb_result_last_date"));
+					
+					hopeBookVO.setU_m_no(rs.getInt("u_m_no"));
+					hopeBookVO.setU_m_id(rs.getString("u_m_id"));
+					hopeBookVO.setU_m_pw(rs.getString("u_m_pw"));
+					hopeBookVO.setU_m_name(rs.getString("u_m_name"));
+					hopeBookVO.setU_m_gender(rs.getString("u_m_gender"));
+					hopeBookVO.setU_m_mail(rs.getString("u_m_mail"));
+					hopeBookVO.setU_m_phone(rs.getString("u_m_phone"));
+					hopeBookVO.setU_m_reg_date(rs.getString("u_m_reg_date"));
+					hopeBookVO.setU_m_mod_date(rs.getString("u_m_mod_date"));
+					
+					return hopeBookVO;
+				}
+			});
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return hopeBookVOs;
+	}
+	// 희망도서 입고처리
+	public void updateHopeBookResult(int hb_no) {
+		System.out.println("[BookDAO] updateHopeBookResult()");
+		
+		String sql = "UPDATE tbl_hope_book "
+				+ "SET hb_result = 1, hb_result_last_date = NOW() "
+				+ "WHERE hb_no = ?";
+		
+		try {
+			jdbcTemplate.update(sql, hb_no);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	//전체 도서 목록 조회
+	public List<BookVO> selectAllBooks(){
+		System.out.println("[BookDAO] selectAllBooks()");
+		
+		String sql = "SELECT * FROM tbl_book "
+				+ "ORDER BY b_reg_date DESC";
+		
+		List<BookVO> books = new ArrayList<BookVO>();
+		
+		try {
+			books = jdbcTemplate.query(sql, new RowMapper<BookVO>() {
+				@Override
+				public BookVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+					BookVO bookVO = new BookVO();
+					
+					bookVO.setB_no(rs.getInt("b_no"));
+					bookVO.setB_thumbnail(rs.getString("b_thumbnail"));
+					bookVO.setB_name(rs.getString("b_name"));
+					bookVO.setB_publisher(rs.getString("b_publisher"));
+					bookVO.setB_publish_year(rs.getString("b_publish_year"));
+					bookVO.setB_isbn(rs.getString("b_isbn"));
+					bookVO.setB_call_number(rs.getString("b_call_number"));
+					bookVO.setB_rental_able(rs.getInt("b_rental_able"));
+					bookVO.setB_reg_date(rs.getString("b_reg_date"));
+					bookVO.setB_mod_date(rs.getString("b_mod_date"));
+					
+					return bookVO;
+				}
+			});
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return books.size() > 0 ? books : null;
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.office.library.book.BookVO;
+import com.office.library.book.HopeBookVO;
 import com.office.library.book.RentalBookVO;
 
 @Service
@@ -84,5 +85,38 @@ public class BookService {
 			result = bookDAO.updateBook(b_no);
 		}
 		return result;
+	}
+	//희망 도서 요청 목록보기
+	public List<HopeBookVO> getHopeBooks(){
+		System.out.println("[BookService] getHopeBooks()");
+		
+		return bookDAO.selectHopeBooks();
+	}
+	// 희망도서 입고처리
+	public int registerHopeBookConfirm(BookVO bookVO, int hb_no) {
+		System.out.println("[BookService] registerHopeBookConfirm()");
+		
+		boolean isISBN = bookDAO.isISBN(bookVO.getB_isbn());
+		
+		if(!isISBN) {
+			int result = bookDAO.insertBook(bookVO);
+			
+			if(result > 0) {
+				bookDAO.updateHopeBookResult(hb_no);
+				
+				return BOOK_REGISTER_SUCCESS;
+			}else {
+				return BOOK_REGISTER_FAIL;
+			}
+		}else {
+			return BOOK_ISBN_ALREADY_EXIST;
+		}
+	}
+	
+	//전체 도서 목록 조회
+	public List<BookVO> getAllBooks(){
+		System.out.println("[BookService] getAllBooks()");
+		
+		return bookDAO.selectAllBooks();
 	}
 }

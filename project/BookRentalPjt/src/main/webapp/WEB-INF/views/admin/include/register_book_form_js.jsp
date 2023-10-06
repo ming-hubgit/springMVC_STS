@@ -34,7 +34,7 @@
 			
 		} else if (form.b_rental_able.value == '') {
 			alert('SELECT BOOK RANTAL ABLE.');
-			form.b_rantal_able.focus();
+			form.b_rental_able.focus();
 			
 		} else if (form.file.value == '') {
 			alert('SELECT IMAGE FILE');

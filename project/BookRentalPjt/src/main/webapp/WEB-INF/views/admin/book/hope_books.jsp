@@ -46,7 +46,7 @@
 					
 					<tbody>
 						
-						<c:forEach var="item" items="${hopeBookVos}">
+						<c:forEach var="item" items="${hopeBookVOs}">
 							<tr>
 								<td>${item.u_m_id}</td>
 								<td>${item.hb_name}</td>
