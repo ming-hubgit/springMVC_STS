@@ -7,5 +7,6 @@
     
     <util:properties id="infoProperty"
     location="/WEB-INF/spring/properties/dev.info.properties" />
-    
+    <util:properties id="commInfoProperty"
+    location="/WEB-INF/spring/properties/comm.info.properties" />
 </beans>
